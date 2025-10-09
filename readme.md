@@ -16,7 +16,7 @@
 
 This repository provides the training implementation of R-Log, along with an instruction dataset derived from human-expert rules, serving as structured reasoning guidance for instruction-based log analysis.
 
-Paper: [R-Log: Incentivizing Log Analysis Capability in LLMs via Reasoning-based Reinforcement Learning]()
+Paper: [R-Log: Incentivizing Log Analysis Capability in LLMs via Reasoning-based Reinforcement Learning](https://arxiv.org/abs/2509.25987)
 
 ## 📣 Introduction
 <p align="center">
