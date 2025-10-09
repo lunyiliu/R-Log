@@ -43,7 +43,7 @@ pip install -r requirements_verl.txt
 ```
 ## ✨ Reasoning Dataset of R-Log
 Based on 13 strategies from manual O&M practices, we constructed a curated dataset of 2632 reasoning trajectories, which are guided by these strategies and structured as "instruction-input-output-reason" quadruplets.
-**The dataset is located in the main directory of this repository, named 'R_Log_train_with_reasoning.json'.**
+**The dataset is located in the reason_data directory of this repository, named 'R_Log_train_with_reasoning.json'.**
 
 Example:
 ```
