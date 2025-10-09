@@ -1,4 +1,4 @@
-# R-log
+# R-Log: Incentivizing Log Analysis Capability in LLMs via Reasoning-based Reinforcement Learning
 
 <!-- <p align="center">
     <img src="asset/fig1.png" width=600 />
