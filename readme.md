@@ -43,7 +43,7 @@ pip install -r requirements_verl.txt
 ```
 ## ✨ Reasoning Dataset of R-Log
 Based on 13 strategies from manual O&M practices, we constructed a curated dataset of 2632 reasoning trajectories, which are guided by these strategies and structured as "instruction-input-output-reason" quadruplets.
-**The dataset is located in the reason_data directory of this repository, named 'R_Log_train_with_reasoning.json'.**
+**The dataset and the reasoning templates are located in the reason_data directory of this repository, named 'R_Log_train_with_reasoning.json' and 'reasoning_templates.md'.**
 
 Example:
 ```
@@ -72,7 +72,7 @@ Please make sure to install the packages required. For issues related to environ
 
 (2) Cold-Start on Log Reasoning Dataset
 
-a. Register the dataset in data/dataset_info.json.  
+a. Register the dataset in /LLaMA-Factory/data/dataset_info.json.  
 ```
 dataset_info.json
 {
@@ -90,41 +90,50 @@ dataset_info.json
 
 b.Cold-Start training (with multiple GPUs)
 ```
-WANDB_MODE=offline deepspeed --include localhost:0,1 --master_port=9905 src/train_bash.py \
-    --deepspeed cache/ds_z2_offload_config.json \
+cd LLama-Factory
+llamafactory-cli train \
     --stage sft \
-    --model_name_or_path [path to Qwen-2.5-7b] \
-    --do_train \
-    --dataset R_Log_train \
-    --template alpaca \
+    --do_train True \
+    --model_name_or_path path_to_Qwen2.5-7B \
+    --preprocessing_num_workers 16 \
     --finetuning_type full \
-    --output_dir [path to model saving] \
-    --overwrite_cache \
+    --template default \
+    --flash_attn auto \
+    --dataset_dir data \
+    --dataset path_to_train set \
+    --cutoff_len 2048 \
+    --learning_rate 2e-05 \
+    --num_train_epochs 6.0 \
+    --max_samples 100000 \
     --per_device_train_batch_size 2 \
     --gradient_accumulation_steps 8 \
     --lr_scheduler_type cosine \
-    --save_strategy "epoch" \
-    --save_total_limit 6 \
-    --logging_steps 10 \
-    --learning_rate 2e-5 \
-    --weight_decay 0. \
-    --warmup_ratio 0.03 \
-    --num_train_epochs 6 \
-    --plot_loss \
-    --overwrite_output_dir \
+    --max_grad_norm 1.0 \
+    --logging_steps 5 \
+    --save_steps 100 \
+    --warmup_steps 0 \
+    --packing False \
+    --report_to none \
+    --output_dir saves/Qwen2.5-7B/full/ \
     --bf16 True \
-    --tf32 True \
+    --plot_loss True \
+    --trust_remote_code True \
+    --ddp_timeout 180000000 \
+    --include_num_input_tokens_seen True \
+    --optim adamw_torch \
+    --deepspeed cache/ds_z2_offload_config.json 
 ```
-The config file ds_config_zero2.json can be found in [DeepSpeed](https://github.com/huggingface/transformers/blob/main/tests/deepspeed/ds_config_zero2.json)
+The config file ds_z2_offload_config.json can be found in [DeepSpeed](https://github.com/huggingface/transformers/blob/main/tests/deepspeed/ds_config_zero2.json)
 For more information, please refer to LLaMA-Factory v0.9.4.
 
 (3) Reinforcement Learning
 
 a. Prepare data for RL
-The train and test datasets should also be transformed to parquet format by using data/parquet_builder.py 
+The train and test datasets should also be transformed to parquet format by using ./VeRL/verl/data/parquet_builder.py 
 
 b. RL on Joint Rewards in Heterogeneous O\&M Environment
 ```bash
+cd VeRL
 set -x
 export CUDA_VISIBLE_DEVICES=
 export HYDRA_FULL_ERROR=1
@@ -174,13 +183,12 @@ python -m verl.trainer.main_ppo \
 c. Export model
 ```bash
 export VLLM_ATTENTION_BACKEND=XFORMERS
-python verl-main/scripts/model_merger.py --local_dir[path to savd model]
+bash model_train.sh
 ```
 (4) Inference
 The inference test datasets should also be registered in data/testsets_config.json, and the model should be registered in models_config.json.
 ```bash
-cd LLaMa-Factory
+cd LLaMa-Factory/inference
 python vllm_custom.py --model={Model} --testset={Testset}
 python vllm_post_infer.py --model={Model} --testset={Testset}
-python calculate_metrics.py --model={Model} --testset={Testset}
 ```
