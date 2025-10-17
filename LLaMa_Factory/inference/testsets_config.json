@@ -1,0 +1,6 @@
+{
+    "testset":{
+        "path": "path_to_testset",
+        "type": "anomaly/parsing/irs"
+    }
+}

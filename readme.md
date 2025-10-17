@@ -90,7 +90,7 @@ dataset_info.json
 
 b.Cold-Start training (with multiple GPUs)
 ```
-cd LLama-Factory
+cd LLama_Factory
 llamafactory-cli train \
     --stage sft \
     --do_train True \
@@ -133,7 +133,7 @@ The train and test datasets should also be transformed to parquet format by usin
 
 b. RL on Joint Rewards in Heterogeneous O\&M Environment
 ```bash
-cd VeRL
+cd Verl
 set -x
 export CUDA_VISIBLE_DEVICES=
 export HYDRA_FULL_ERROR=1
@@ -188,7 +188,7 @@ bash model_train.sh
 (4) Inference
 The inference test datasets should also be registered in data/testsets_config.json, and the model should be registered in models_config.json.
 ```bash
-cd LLaMa-Factory/inference
+cd LLaMa_Factory/inference
 python vllm_custom.py --model={Model} --testset={Testset}
 python vllm_post_infer.py --model={Model} --testset={Testset}
 ```
