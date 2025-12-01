@@ -18,6 +18,9 @@ This repository provides the training implementation of R-Log, along with an ins
 
 Paper: [R-Log: Incentivizing Log Analysis Capability in LLMs via Reasoning-based Reinforcement Learning](https://arxiv.org/abs/2509.25987)
 
+## 📰 News
+R-Log has been accepted by International Conference on Software Engineering (ICSE) 2026 (SEIP track)🎉🎉🎉🎉🎉🎉.
+
 ## 📣 Introduction
 <p align="center">
     <img src="asset/main_fig.png" width=800 />
