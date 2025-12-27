@@ -195,3 +195,16 @@ cd LLaMa_Factory/inference
 python vllm_custom.py --model={Model} --testset={Testset}
 python vllm_post_infer.py --model={Model} --testset={Testset}
 ```
+
+## ⚙️ Prompt Utilized in Creation of Dataset
+
+The following prompt is utilized to transform (X,Y) pairs into (X,Y,R) triplets with thinking trajectories for the task of anomaly detection. Need fine-tuning if it is to be applied for other tasks. 
+
+> Assume that you are a DevOps engineer with extensive experience in log analysis and a strong ability to detect anomalies in logs. Now you have both the unstructured log and its labeled status (normal or abnormal). Your task is to construct the entire analysis process from Original Log to Log Label into an inner monologue, based on the following Reasoning Guidance: **{Reasoning Template}**.
+>
+> You must strictly follow Reasoning Guidance step by step without skipping steps and output the chain-of-thought trajectory from Original Log to Log Label. Note that the monologue should purely be starting from the Original Log without leaking any information in the labeled status, since it reflects the step-by-step internal mental activity of the engineer who doesn’t know the answer at first.
+>
+> The reference to the guidance should be specific combining the input log, avoiding using vague phrases like 'according to Step *'. Make sure every reasoning step in the monologue exists in the actual given log characteristics and do not propose anything outside it.
+>
+> **Original Log**: **{Log X}**  
+> **Log Label**: **{Label Y}**
