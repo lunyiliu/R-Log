@@ -208,3 +208,13 @@ The following prompt is utilized to transform (X,Y) pairs into (X,Y,R) triplets 
 >
 > **Original Log**: **{Log X}**  
 > **Log Label**: **{Label Y}**
+
+## ⚠️ Threats to Validity
+
+Our study has several limitations: 
+
+**(1) Extra Latency by Reasoning**: Reasoning-based LLMs introduce extra latency that may burden online log analysis. To alleviate this, we propose R-Log-fast with an "Answer-first" strategy, fastening the inference while preserving performance, thereby achieving a practical balance between efficiency and accuracy.
+
+**(2) Limited Size of Foundation Model:** Due to tight budget of resources, we didn't verify R-Log using larger foundation models, reducing the confidence of results. However, 7B is the most popular model size for reasoning-based LLMs which balances between accuracy and speed in deployment.
+
+**(3) Fairness of Experimental Comparisons:** In experiment, discrepancies between R-Log's training data and baselines raised fairness concerns. However, fully unifying data is impractical due to proprietary, pre-trained baselines. To ensure fairness, we applied token alignment to offset extra-data effects.
